@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et mauris vitae sapien volutpat tristique. Nam mollis congue ullamcorper. Aenean rhoncus mi mi, sed condimentum enim gravida et. Suspendisse suscipit tortor at dui condimentum lacinia. Praesent sollicitudin euismod lacus, ac sagittis lorem finibus vel. Morbi eu ante metus. Donec euismod tempus nisl, iaculis scelerisque ante sagittis eu. Proin in condimentum lectus. Duis tempus, dui tincidunt ultricies sollicitudin, odio velit interdum dolor, et maximus sapien purus vel lacus. Sed dictum turpis sit amet lectus maximus cursus. Vestibulum vitae dignissim ipsum. Quisque vel est tellus. Aliquam erat volutpat. Proin consectetur rutrum commodo.  "
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+</LinearLayout>
