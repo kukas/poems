@@ -18,6 +18,15 @@
     ]
   },
   {
+    "featureType": "administrative",
+    "elementType": "all",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
     "featureType": "landscape",
     "elementType": "all",
     "stylers": [
@@ -88,7 +97,7 @@
     "elementType": "labels.icon",
     "stylers": [
       {
-        "color": "#ff0000"
+        "color": "#000000"
       }
     ]
   },
@@ -125,6 +134,24 @@
     "stylers": [
       {
         "color": "#ffffff"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "all",
+    "stylers": [
+      {
+        "visibility": "on"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#8bd3dc"
       }
     ]
   }
