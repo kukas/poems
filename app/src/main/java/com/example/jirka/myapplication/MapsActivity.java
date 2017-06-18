@@ -50,6 +50,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient mFusedLocationClient;
 
     private double MAX_DISTANCE = 500;
+    private boolean tracking = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +123,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
             here = new LatLng(location.getLatitude(), location.getLongitude());
             // Marker m = mMap.addMarker(new MarkerOptions().position(here).title("now"));
-            // // TODO: 18.6.17 fix only on asdfafds
-            // mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
+            if(tracking){
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
+                tracking = false;
+            }
 
             for (Marker m :
                     markers) {
