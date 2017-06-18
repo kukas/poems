@@ -48,14 +48,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleApiClient mGoogleApiClient;
     private FusedLocationProviderClient mFusedLocationClient;
-    private BitmapDescriptor closedBook;
-    private BitmapDescriptor openBook;
 
+    private double MAX_DISTANCE = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // closedBook = ;
-        // openBook = BitmapDescriptorFactory.fromResource(R.mipmap.book_single_lines);
 
         markers = new Vector<Marker>();
 
@@ -119,24 +116,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    private LatLng here;
     public void updatePosition(Location location) {
         if (location != null) {
             //LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
-            LatLng here = new LatLng(location.getLatitude(), location.getLongitude());
+            here = new LatLng(location.getLatitude(), location.getLongitude());
             // Marker m = mMap.addMarker(new MarkerOptions().position(here).title("now"));
             // // TODO: 18.6.17 fix only on asdfafds
             // mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
-/*
+
             for (Marker m :
                     markers) {
                 double dist = distance(m.getPosition(), here);
-                if (dist < 100) {
-                    m.setIcon(openBook);
+                if (dist < MAX_DISTANCE) {
+                    m.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.book_single_lines));
                 }
                 else {
-                    m.setIcon(closedBook);
+                    m.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.book_closed));
                 }
-                }*/
+                }
         }
     }
 
@@ -172,8 +170,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String name = obj.getString("name");
                 Marker m = mMap.addMarker(new MarkerOptions()
                         .position(pos)
-                        .title(name)
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.book_closed)));
+                        .title(name));
+                m.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.book_closed));
                 m.setTag(new Poem(obj));
 
                 markers.add(m);
@@ -262,9 +260,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // EditText editText = (EditText) findViewById(R.id.editText);
         // String message = editText.getText().toString();
         // intent.putExtra(EXTRA_MESSAGE, message);
-        ID++;
-        PoemActivity.activePoem = (Poem) marker.getTag();
-        startActivity(intent);
+        if(here != null){
+            double dist = distance(marker.getPosition(), here);
+            if (dist < MAX_DISTANCE) {
+                PoemActivity.activePoem = (Poem) marker.getTag();
+                startActivity(intent);
+            }
+            else {
+                // -
+            }
+        }
 
         return false;
     }
