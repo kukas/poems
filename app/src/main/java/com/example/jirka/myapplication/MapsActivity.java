@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
@@ -47,10 +48,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleApiClient mGoogleApiClient;
     private FusedLocationProviderClient mFusedLocationClient;
+    private BitmapDescriptor closedBook;
+    private BitmapDescriptor openBook;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // closedBook = ;
+        // openBook = BitmapDescriptorFactory.fromResource(R.mipmap.book_single_lines);
+
         markers = new Vector<Marker>();
 
         super.onCreate(savedInstanceState);
@@ -74,7 +80,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             };
         };
-}
+    }
+
+    public static double distance(LatLng StartP, LatLng EndP) {
+        double lat1 = StartP.latitude;
+        double lat2 = EndP.latitude;
+        double lon1 = StartP.longitude;
+        double lon2 = EndP.longitude;
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLon = Math.toRadians(lon2-lon1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return 6366000 * c;
+    }
 /*
     @Override
     protected void onResume() {
@@ -106,6 +126,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // Marker m = mMap.addMarker(new MarkerOptions().position(here).title("now"));
             // // TODO: 18.6.17 fix only on asdfafds
             // mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
+/*
+            for (Marker m :
+                    markers) {
+                double dist = distance(m.getPosition(), here);
+                if (dist < 100) {
+                    m.setIcon(openBook);
+                }
+                else {
+                    m.setIcon(closedBook);
+                }
+                }*/
         }
     }
 
@@ -142,7 +173,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Marker m = mMap.addMarker(new MarkerOptions()
                         .position(pos)
                         .title(name)
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker)));
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.book_closed)));
                 m.setTag(new Poem(obj));
 
                 markers.add(m);
