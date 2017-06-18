@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
@@ -35,11 +36,14 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Vector;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private GoogleMap mMap;
+
+    private Vector<Marker> markers;
 
     private GoogleApiClient mGoogleApiClient;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -47,6 +51,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        markers = new Vector<Marker>();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -64,10 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
-                    LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
-                    Marker m = mMap.addMarker(new MarkerOptions().position(pos).title("now"));
-                    // Update UI with location data
-                    // ...
+                    updatePosition(location);
                 }
             };
         };
@@ -96,6 +99,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    public void updatePosition(Location location) {
+        if (location != null) {
+            //LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
+            LatLng here = new LatLng(location.getLatitude(), location.getLongitude());
+            // Marker m = mMap.addMarker(new MarkerOptions().position(here).title("now"));
+            // // TODO: 18.6.17 fix only on asdfafds
+            // mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -126,8 +139,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 JSONObject obj = array.getJSONObject(i);
                 LatLng pos = new LatLng(obj.getDouble("lat"), obj.getDouble("lng"));
                 String name = obj.getString("name");
-                Marker m = mMap.addMarker(new MarkerOptions().position(pos).title(name));
+                Marker m = mMap.addMarker(new MarkerOptions()
+                        .position(pos)
+                        .title(name)
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker)));
                 m.setTag(new Poem(obj));
+
+                markers.add(m);
             }
 
         } catch (JSONException e) {
@@ -179,10 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         @Override
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                LatLng here = new LatLng(location.getLatitude(), location.getLongitude());
-                                mMap.moveCamera(CameraUpdateFactory.newLatLng(here));
-                            }
+                            updatePosition(location);
                 }
             });
 
