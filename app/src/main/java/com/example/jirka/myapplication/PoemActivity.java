@@ -1,5 +1,6 @@
 package com.example.jirka.myapplication;
 
+import android.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -23,6 +24,9 @@ public class PoemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poem);
+/*
+        ActionBar actionBar = getActionBar();
+        actionBar.setHomeButtonEnabled(true);*/
 
         TextView textView = (TextView) findViewById(R.id.textView);
         textView.setText(activePoem.name + "\n" + activePoem.author + "\n\n" +  activePoem.text);
