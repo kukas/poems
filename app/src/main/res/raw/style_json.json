@@ -55,7 +55,7 @@
     "elementType": "labels",
     "stylers": [
       {
-        "visibility": "on"
+        "visibility": "off"
       },
       {
         "color": "#ff0000"
@@ -154,5 +154,28 @@
         "color": "#8bd3dc"
       }
     ]
-  }
+  },
+
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "weight": "1"
+      }
+    ]
+  },
+
+  {
+    "featureType": "road.arterial",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "weight": "0.85"
+      }
+    ]
+  },
+
+
+
 ]
